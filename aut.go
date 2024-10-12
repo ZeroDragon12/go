@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/jacks/pgx"
+	_ "github.com/jackc/pgx"
 	_ "gorm.io/driver/postgres"
 )
 
