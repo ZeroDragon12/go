@@ -3,42 +3,49 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/jackc/pgx"
+	_ "github.com/lib/pq"
 	_ "gorm.io/driver/postgres"
 )
 
 const (
 	host     = "localhost"
 	port     = 5432
-	user     = "username"
+	user     = "postgres"
 	password = "Pass_word"
-	dbname   = "myappdb"
+	dbname   = "postgres"
 )
+
+type User struct {
+	GUID string   `json:"guid"`
+	Rts  []string `json:"rts"`
+}
 
 func connectDB() (*sql.DB, error) {
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
+	fmt.Println(connStr)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, err
 	}
 
+	fmt.Println(connStr)
 	err = db.Ping()
 	if err != nil {
 		return nil, err
 	}
 
+	fmt.Println(connStr)
+	fmt.Println("Connected!")
 	return db, nil
 }
-func insertData(db *sql.DB, name string, age int) error {
-	insertSQL := "INSERT INTO users (name, age) VALUES ($1, $2)"
 
-	_, err := db.Exec(insertSQL, name, age)
-	return err
-}
 func main() {
-	a := 5
-	fmt.Println(a)
-	connectDB()
+	db, err := connectDB()
+	if err != nil {
+		return
+	}
+	User
+
 }
